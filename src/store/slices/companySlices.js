@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   allCompanies: [],
   company: {},
+  isLoadingEditData: false,
   companyEditData: {},
 }
 
@@ -22,6 +23,7 @@ export const userSlice = createSlice({
       state.isLoading = false
       state.allCompanies = []
     },
+
     getCompanyFetching: state => {
       state.company = {}
       state.isLoading = true
@@ -34,16 +36,17 @@ export const userSlice = createSlice({
       state.isLoading = false
       state.company = {}
     },
+
     getCompanyEditDataFetching: state => {
       state.companyEditData = {}
-      state.isLoading = true
+      state.isLoadingEditData = true
     },
     getCompanyEditDataSuccses: (state, action) => {
-      state.isLoading = false
+      state.isLoadingEditData = false
       state.companyEditData = action.payload
     },
     getCompanyEditDataError: (state, action) => {
-      state.isLoading = false
+      state.isLoadingEditData = false
       state.companyEditData = {}
     },
     // createCompanyFetching: state => {

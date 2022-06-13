@@ -4,6 +4,9 @@ const initialState = {
   isLoading: false,
   companyVacancies: [],
   companyVacanciesError: {},
+  isLoadingEditData: false,
+  vacancyEditData: {},
+  vacancyEditDataEror: {},
 }
 
 export const vacancySlice = createSlice({
@@ -23,9 +26,30 @@ export const vacancySlice = createSlice({
       state.companyVacancies = []
       state.companyVacanciesError = action.payload
     },
+
+    getVacanciesEditDataFetching: state => {
+      state.isLoadingEditData = true
+    },
+    getVacanciesEditDataSuccses: (state, action) => {
+      state.isLoadingEditData = false
+      state.vacancyEditData = action.payload
+      state.vacancyEditDataEror = ''
+    },
+    getVacanciesEditDataError: (state, action) => {
+      state.isLoadingEditData = false
+      state.vacancyEditData = {}
+      state.vacancyEditDataEror = action.payload
+    },
   },
 })
 
-export const {getCompanyVacanciesFetching, getCompanyVacanciesSuccses, getCompanyVacanciesError} = vacancySlice.actions
+export const {
+  getCompanyVacanciesFetching,
+  getCompanyVacanciesSuccses,
+  getCompanyVacanciesError,
+  getVacanciesEditDataFetching,
+  getVacanciesEditDataSuccses,
+  getVacanciesEditDataError,
+} = vacancySlice.actions
 
 export default vacancySlice.reducer

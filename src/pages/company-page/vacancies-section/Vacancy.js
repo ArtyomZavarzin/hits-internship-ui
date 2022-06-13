@@ -1,5 +1,6 @@
-import {Box, Divider, Grid, Paper, Rating, Typography} from '@mui/material'
+import {Box, Divider, Grid, IconButton, Paper, Rating, Typography} from '@mui/material'
 import {styled} from '@mui/system'
+import EditIcon from '@mui/icons-material/Edit'
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   display: 'flex',
@@ -12,12 +13,23 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   },
 }))
 
-const VacancyItem = ({vacancy}) => {
+const VacancyItem = ({vacancy, editingRight, onEdit}) => {
   return (
     <StyledPaper variant="outlined" sx={{p: 2}}>
-      <Typography variant="h5" color="primary" sx={{mb: 1}}>
-        {vacancy.positionName}
-      </Typography>
+      <Grid container spacing={1} sx={{mb: 1}} wrap="nowrap">
+        <Grid item xs={true}>
+          <Typography variant="h5" color="primary">
+            {vacancy.positionName}
+          </Typography>
+        </Grid>
+        {editingRight ? (
+          <Grid item>
+            <IconButton color="primary" aria-label="edit-vacancy" onClick={() => onEdit(vacancy.id)}>
+              <EditIcon />
+            </IconButton>
+          </Grid>
+        ) : null}
+      </Grid>
 
       <Typography sx={{flexGrow: 1, whiteSpace: 'pre-line'}} variant="body1">
         {vacancy.description}

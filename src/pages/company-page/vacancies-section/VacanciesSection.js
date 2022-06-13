@@ -1,49 +1,33 @@
 import {Grid, Typography, Box, Button, Paper} from '@mui/material'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {userRoles} from '../../../common/constants'
 import CircularLoader from '../../../components/common-components/CircularLoader'
 import {useAuth} from '../../../hooks/use-auth'
 import {getCompanyVacancies} from '../../../store/actions/vacancyAction'
 import AddIcon from '@mui/icons-material/Add'
-import AddVacancyDialog from './AddVacancyDialog'
+import CrudVacancyDialog from './CrudVacancyDialog'
 import VacancyItem from './Vacancy'
-
-const companyVacanciesMock = [
-  {
-    id: 0,
-    description: `· минимум 2-3 языка программирования, например, C#, Js, Python, SQL (познакомившись с одним, осваивать другой будет проще)
-· проектирование систем, состоящих из множества взаимосвязанных элементов;
-· тестирование кода – проверка работы программы целиком и её отдельных блоков, чтобы выяснить, соответствуют ли они требованиям заказчика;`,
-    maxCountStudents: 3,
-    salary: 15000,
-    positionName: 'Backend dev',
-    currentYear: true,
-  },
-  {
-    id: 0,
-    description: 'Defhjdksfh sdjkfh skjflsd fkjshfkshf sdhjfkhskf',
-    maxCountStudents: 3,
-    salary: 15000,
-    positionName: 'Мобильный разработчик (Android)',
-    currentYear: true,
-  },
-  {
-    id: 0,
-    description: 'Defhjdksfh sdjkfh skjflsd fkjshfkshf sdhjfkhskf',
-    maxCountStudents: 3,
-    salary: 15000,
-    positionName: 'Front dev (Vue.js)',
-    currentYear: true,
-  },
-]
 
 const VacanciesSection = ({companyId}) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [dialogAction, setDialogAction] = useState('')
+  const [currentVacancyId, setCurrentVacancyId] = useState('')
   const dispatch = useDispatch()
 
   const {userRole, companyId: userCompanyId} = useAuth()
   const {isLoading, companyVacancies} = useSelector(state => state.vacancy)
+
+  const onEdit = useCallback(id => {
+    setCurrentVacancyId(id)
+    setDialogAction('edit')
+    setDialogIsOpen(true)
+  }, [])
+
+  const onCreate = useCallback(() => {
+    setDialogAction('create')
+    setDialogIsOpen(true)
+  }, [])
 
   useEffect(() => {
     dispatch(getCompanyVacancies(companyId))
@@ -51,7 +35,7 @@ const VacanciesSection = ({companyId}) => {
 
   return (
     <>
-      <Typography variant="h4" sx={{mb: 2}}>
+      <Typography variant="h4" sx={{my: 2}}>
         Вакансии
       </Typography>
       <Box sx={{minHeight: '50px', position: 'relative'}}>
@@ -64,7 +48,11 @@ const VacanciesSection = ({companyId}) => {
           <Grid container spacing={2}>
             {companyVacancies.map(item => (
               <Grid key={item.id} item xs={6}>
-                <VacancyItem vacancy={item} />
+                <VacancyItem
+                  vacancy={item}
+                  editingRight={userRole === userRoles.admin || userCompanyId == companyId}
+                  onEdit={onEdit}
+                />
               </Grid>
             ))}
           </Grid>
@@ -72,10 +60,16 @@ const VacanciesSection = ({companyId}) => {
       </Box>
       {userRole === userRoles.admin || userCompanyId == companyId ? (
         <>
-          <Button sx={{mt: 2}} variant="outlined" endIcon={<AddIcon />} onClick={() => setDialogIsOpen(true)}>
+          <Button sx={{mt: 2}} variant="outlined" endIcon={<AddIcon />} onClick={onCreate}>
             Добавить вакансию
           </Button>
-          <AddVacancyDialog isOpen={dialogIsOpen} onClose={() => setDialogIsOpen(false)} companyId={+companyId} />
+          <CrudVacancyDialog
+            isOpen={dialogIsOpen}
+            onClose={() => setDialogIsOpen(false)}
+            companyId={+companyId}
+            vacancyId={currentVacancyId}
+            dialogAction={dialogAction}
+          />
         </>
       ) : null}
     </>

@@ -30,5 +30,5 @@ const theme = createTheme({
     },
   },
 })
-
+//src: local('SF Pro Display'), url(${SFpro}) format('dmg');
 export default theme

@@ -92,7 +92,7 @@ export const editCompany = form => async dispatch => {
     const {ok, data, errors} = getResponse(response)
 
     if (ok) {
-      await dispatch(getCompanyEditData(form.id))
+      await dispatch(getCompany(form.id))
     }
 
     return {ok, errors}
