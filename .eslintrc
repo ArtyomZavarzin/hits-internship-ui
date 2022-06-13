@@ -1,0 +1,15 @@
+{
+  "extends": "react-app",
+  "plugins": [
+    "prettier",
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error", // Проверяем правила хуков
+    "react-hooks/exhaustive-deps": "warn", // Проверяем зависимости эффекта
+    "prettier/prettier": "error",
+    "no-shadow": "warn",
+    "no-shadow-restricted-names": "error",
+    "no-console": "warn"    
+  }
+}
