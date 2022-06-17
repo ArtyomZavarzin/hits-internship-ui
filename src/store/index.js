@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import authSlices from './slices/authSlices'
 import companySlices from './slices/companySlices'
+import jobApplicationSlices from './slices/jobApplicationSlices'
 import reviewsSlices from './slices/reviewsSlices'
 import userSlices from './slices/userSlices'
 import vacancySlices from './slices/vacancySlices'
@@ -13,6 +14,7 @@ const roorReducer = {
   company: companySlices,
   reviews: reviewsSlices,
   vacancy: vacancySlices,
+  jobApplication: jobApplicationSlices,
 }
 
 export const store = configureStore({

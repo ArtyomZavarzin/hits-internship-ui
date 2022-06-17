@@ -7,6 +7,9 @@ const initialState = {
   allStudents: [],
   allStudentsError: '',
   allUsers: [],
+  isLoadingUserInfo: false,
+  userInfo: {},
+  userInfoError: '',
 }
 
 export const userSlice = createSlice({
@@ -40,6 +43,20 @@ export const userSlice = createSlice({
       state.allStudents = []
       state.allStudentsError = action.payload
     },
+
+    getUserInfoFetching: state => {
+      state.isLoadingUserInfo = true
+    },
+    getUserInfoSuccses: (state, action) => {
+      state.isLoadingUserInfo = false
+      state.userInfo = action.payload
+      state.userInfoError = ''
+    },
+    getUserInfoError: (state, action) => {
+      state.isLoadingUserInfo = false
+      state.userInfo = {}
+      state.userInfoError = action.payload
+    },
   },
 })
 
@@ -50,6 +67,9 @@ export const {
   getAllStudentsFetching,
   getAllStudentsSuccses,
   getAllStudentsError,
+  getUserInfoFetching,
+  getUserInfoSuccses,
+  getUserInfoError,
 } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,9 +1,10 @@
-import {Table, TableBody, TableContainer, TableHead, TableRow, Typography, TableCell} from '@mui/material'
+import {Table, TableBody, TableContainer, TableHead, TableRow, Typography, TableCell, Button} from '@mui/material'
 import {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import CircularLoader from '../../../components/common-components/CircularLoader.js'
 import {getAllStudents} from '../../../store/actions/userAction.js'
 import {styled} from '@mui/material/styles'
+import {Link} from 'react-router-dom'
 
 const StyledTableRow = styled(TableRow)(({theme}) => ({
   backgroundColor: 'transparent',
@@ -48,7 +49,11 @@ const StudentsTab = () => {
                 <TableCell align="right">
                   {row.userCompanies && row.userCompanies.lenght !== 0 ? row.userCompanies[0].name : '-'}
                 </TableCell>
-                <TableCell align="right">dfds</TableCell>
+                <TableCell align="right">
+                  <Button component={Link} to={`/student/${row.id}`}>
+                    Подробнее
+                  </Button>
+                </TableCell>
               </StyledTableRow>
             ))}
           </TableBody>

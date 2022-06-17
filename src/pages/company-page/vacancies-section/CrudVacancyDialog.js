@@ -23,14 +23,14 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction}) => {
+const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction, getCompanyVacancies}) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [positionName, setPositionName] = useState('')
   const [description, setDescription] = useState('')
   const [maxCountStudents, setMaxCountStudents] = useState(0)
   const [salary, setSalary] = useState(0)
-  const [currentYear, setCurrentYear] = useState(false)
+  // const [year, setYear] = useState(2)
 
   const {isLoadingEditData, vacancyEditData} = useSelector(state => state.vacancy)
 
@@ -48,7 +48,7 @@ const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction}
       setDescription(vacancyEditData.description)
       setMaxCountStudents(vacancyEditData.maxCountStudents)
       setSalary(vacancyEditData.salary)
-      setCurrentYear(vacancyEditData.currentYear)
+      // setYear(vacancyEditData.year)
     }
   }, [vacancyEditData, dialogAction])
 
@@ -61,19 +61,18 @@ const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction}
     setDescription('')
     setMaxCountStudents('')
     setSalary('')
-    setCurrentYear(false)
+    // setYear(2)
     onClose()
   }
 
   const handleSubmit = async () => {
     setIsLoading(true)
     const form = {
-      companyId: companyId, // не для запроса
       positionName,
       description,
       maxCountStudents: +maxCountStudents,
       salary: +salary,
-      currentYear,
+      // year,
     }
     if (dialogAction === 'create') {
       form.id = companyId
@@ -83,6 +82,7 @@ const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction}
     const {ok} = await dispatch(dialogAction === 'create' ? createCompanyVacancy(form) : editCompanyVacancy(form))
     setIsLoading(false)
     if (ok) {
+      dispatch(getCompanyVacancies(companyId))
       handleClose()
     }
   }
@@ -146,14 +146,25 @@ const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction}
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 label="Текущий год"
                 control={
                   <Checkbox disabled={isLoading} checked={currentYear} onChange={() => setCurrentYear(!currentYear)} />
                 }
               />
-            </Grid>
+            </Grid> */}
+            {/* <Grid item xs={12}>
+              <TextField
+                disabled={isDisabled}
+                fullWidth={true}
+                label="Курс"
+                type="number"
+                value={year}
+                onChange={e => setYear(e.target.value)}
+                placeholder="Курс"
+              />
+            </Grid> */}
           </Grid>
         )}
 

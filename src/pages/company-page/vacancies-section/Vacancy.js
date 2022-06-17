@@ -1,6 +1,8 @@
-import {Box, Divider, Grid, IconButton, Paper, Rating, Typography} from '@mui/material'
+import {Box, Button, Divider, Grid, IconButton, Paper, Rating, Typography} from '@mui/material'
 import {styled} from '@mui/system'
 import EditIcon from '@mui/icons-material/Edit'
+import {useAuth} from '../../../hooks/use-auth'
+import {userRoles} from '../../../common/constants'
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   display: 'flex',
@@ -13,7 +15,8 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   },
 }))
 
-const VacancyItem = ({vacancy, editingRight, onEdit}) => {
+const VacancyItem = ({vacancy, editingRight, onEdit, onApplyVacancy}) => {
+  const {userRole} = useAuth()
   return (
     <StyledPaper variant="outlined" sx={{p: 2}}>
       <Grid container spacing={1} sx={{mb: 1}} wrap="nowrap">
@@ -24,7 +27,7 @@ const VacancyItem = ({vacancy, editingRight, onEdit}) => {
         </Grid>
         {editingRight ? (
           <Grid item>
-            <IconButton color="primary" aria-label="edit-vacancy" onClick={() => onEdit(vacancy.id)}>
+            <IconButton color="primary" aria-label="edit-vacancy" onClick={() => onEdit(vacancy)}>
               <EditIcon />
             </IconButton>
           </Grid>
@@ -44,6 +47,11 @@ const VacancyItem = ({vacancy, editingRight, onEdit}) => {
         </Grid>
       </Grid>
       {vacancy.currentYear && <Typography variant="subtitle2">Вакансия только для текущего года</Typography>}
+      {userRole === userRoles.student ? (
+        <Button sx={{mt: 2}} variant="outlined" onClick={() => onApplyVacancy(vacancy)}>
+          Откликнуться
+        </Button>
+      ) : null}
     </StyledPaper>
   )
 }

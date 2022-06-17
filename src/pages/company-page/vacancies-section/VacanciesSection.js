@@ -8,25 +8,33 @@ import {getCompanyVacancies} from '../../../store/actions/vacancyAction'
 import AddIcon from '@mui/icons-material/Add'
 import CrudVacancyDialog from './CrudVacancyDialog'
 import VacancyItem from './Vacancy'
+import ApplyVacancyDialog from './ApplyVacancyDialog'
 
 const VacanciesSection = ({companyId}) => {
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [crudDialogIsOpen, setCrudDialogIsOpen] = useState(false)
   const [dialogAction, setDialogAction] = useState('')
-  const [currentVacancyId, setCurrentVacancyId] = useState('')
+  const [currentVacancy, setCurrentVacancy] = useState('')
   const dispatch = useDispatch()
+
+  const [applyDialogIsOpen, setApplyDialogIsOpen] = useState(false)
 
   const {userRole, companyId: userCompanyId} = useAuth()
   const {isLoading, companyVacancies} = useSelector(state => state.vacancy)
 
-  const onEdit = useCallback(id => {
-    setCurrentVacancyId(id)
+  const onEdit = useCallback(vacancy => {
+    setCurrentVacancy(vacancy)
     setDialogAction('edit')
-    setDialogIsOpen(true)
+    setCrudDialogIsOpen(true)
   }, [])
 
   const onCreate = useCallback(() => {
     setDialogAction('create')
-    setDialogIsOpen(true)
+    setCrudDialogIsOpen(true)
+  }, [])
+
+  const onApplyVacancy = useCallback(vacancy => {
+    setCurrentVacancy(vacancy)
+    setApplyDialogIsOpen(true)
   }, [])
 
   useEffect(() => {
@@ -52,6 +60,7 @@ const VacanciesSection = ({companyId}) => {
                   vacancy={item}
                   editingRight={userRole === userRoles.admin || userCompanyId == companyId}
                   onEdit={onEdit}
+                  onApplyVacancy={onApplyVacancy}
                 />
               </Grid>
             ))}
@@ -64,13 +73,21 @@ const VacanciesSection = ({companyId}) => {
             Добавить вакансию
           </Button>
           <CrudVacancyDialog
-            isOpen={dialogIsOpen}
-            onClose={() => setDialogIsOpen(false)}
+            isOpen={crudDialogIsOpen}
+            onClose={() => setCrudDialogIsOpen(false)}
             companyId={+companyId}
-            vacancyId={currentVacancyId}
+            vacancyId={currentVacancy.id}
             dialogAction={dialogAction}
+            getCompanyVacancies={getCompanyVacancies}
           />
         </>
+      ) : null}
+      {userRole === userRoles.student ? (
+        <ApplyVacancyDialog
+          vacancy={currentVacancy}
+          isOpen={applyDialogIsOpen}
+          onClose={() => setApplyDialogIsOpen(false)}
+        />
       ) : null}
     </>
   )

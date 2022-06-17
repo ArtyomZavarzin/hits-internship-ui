@@ -1,6 +1,4 @@
 import companyService from '../../services/companyService'
-import userService from '../../services/userService'
-import userCompanyService from '../../services/userCompanyService'
 import getResponse from '../../utils/getResponse'
 import {
   getAllCompaniesError,
@@ -17,18 +15,6 @@ import {
 export const getAllCompanies = () => async dispatch => {
   try {
     dispatch(getAllCompaniesFetching())
-
-    // await companyService.createCompany({
-    //   name: 'РОЛавы аовы 2',
-    //   // description: 'sdsada da вы ываываыаыфtring',
-    //   // maxStudents: 10,
-    //   email: 'string@mail.ru',
-    //   password: '!Fhjdsk1221string',
-    // })
-
-    // await userCompanyService.createUserCompany({userId: 5, companyId: 1, isCurrent: true})
-    // await userCompanyService.getUserCompanyList({userId: 5})
-    // await userService.getUserInfo({id: 5})
 
     const response = await companyService.getAllCompanies()
     const {ok, data, errors} = getResponse(response)

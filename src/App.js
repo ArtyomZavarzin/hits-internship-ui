@@ -13,6 +13,7 @@ import AllCompaniesPage from './pages/companies-page'
 import {GlobalStyles, ThemeProvider} from '@mui/material'
 import theme from './theme'
 import AdminPanelPage from './pages/admin-panel-page/admin-panel-page'
+import StudentPage from './pages/student-page'
 
 function App() {
   const [loadingApp, setLoadingApp] = useState(true)
@@ -52,6 +53,7 @@ function App() {
               <Route path="*" element={<CommonTemplate />}>
                 <Route path="companies" element={<AllCompaniesPage />} />
                 <Route path="companies/:id" element={<CompanyPage />} />
+                <Route path="student/:id" element={<StudentPage />} />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="admin-panel" element={<AdminPanelPage />} />
                 <Route path="*" element={<div>no such page!</div>} />

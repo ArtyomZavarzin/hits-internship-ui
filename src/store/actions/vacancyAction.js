@@ -30,10 +30,6 @@ export const createCompanyVacancy = form => async dispatch => {
 
     const {ok, data, errors} = getResponse(response)
 
-    if (ok) {
-      await dispatch(getCompanyVacancies(form.companyId))
-    }
-
     return {ok, errors}
   } catch (e) {}
 }
@@ -43,10 +39,6 @@ export const editCompanyVacancy = form => async dispatch => {
     const response = await vacancyService.editVacancy(form)
 
     const {ok, data, errors} = getResponse(response)
-
-    if (ok) {
-      await dispatch(getCompanyVacancies(form.companyId))
-    }
 
     return {ok, errors}
   } catch (e) {}

@@ -6,6 +6,9 @@ import {
   getUserEditError,
   getAllStudentsFetching,
   getAllStudentsSuccses,
+  getUserInfoFetching,
+  getUserInfoSuccses,
+  getUserInfoError,
 } from '../slices/userSlices'
 
 export const getUserEditData = id => async dispatch => {
@@ -22,6 +25,20 @@ export const getUserEditData = id => async dispatch => {
   } catch (e) {}
 }
 
+export const editUserData = form => async dispatch => {
+  try {
+    const response = await userService.editUser(form)
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getUserInfo(form.userId))
+    } else {
+      // dispatch(getUserEditError(errors))
+    }
+    return {ok, errors}
+  } catch (e) {}
+}
+
 export const getAllStudents = () => async dispatch => {
   try {
     dispatch(getAllStudentsFetching())
@@ -34,4 +51,22 @@ export const getAllStudents = () => async dispatch => {
       dispatch(getAllStudentsFetching(errors))
     }
   } catch (e) {}
+}
+
+export const getUserInfo = id => async dispatch => {
+  try {
+    dispatch(getUserInfoFetching())
+    const response = await userService.getUserInfo({id: id})
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      await dispatch(getUserInfoSuccses(data))
+    } else {
+      dispatch(getUserInfoError(errors[0].value))
+    }
+    return {ok, errors}
+  } catch (e) {
+    // console.log(e)
+    // dispatch(authFetchingError(e.message))
+  }
 }

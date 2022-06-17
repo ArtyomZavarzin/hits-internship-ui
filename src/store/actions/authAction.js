@@ -11,7 +11,7 @@ import {
   logoutFetchingError,
 } from '../slices/authSlices'
 
-export const getUser = id => async dispatch => {
+export const getMe = id => async dispatch => {
   try {
     const response = await userService.getUserInfo({id: id})
     const {ok, data, errors} = getResponse(response)
@@ -38,7 +38,7 @@ export const login = loginData => async dispatch => {
       localStorage.setItem('token', data.accessToken)
       localStorage.setItem('refreshToken', data.refreshToken)
 
-      await dispatch(getUser(data.id))
+      await dispatch(getMe(data.id))
       dispatch(authFetchingSuccess(data))
     } else {
       dispatch(authFetchingError(errors[0].value))
@@ -59,7 +59,7 @@ export const refresh = token => async dispatch => {
       localStorage.setItem('token', data.accessToken)
       localStorage.setItem('refreshToken', data.refreshToken)
 
-      await dispatch(getUser(data.id))
+      await dispatch(getMe(data.id))
       dispatch(authFetchingSuccess(data))
     }
     return ok

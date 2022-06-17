@@ -8,6 +8,7 @@ import CircularLoader from '../../components/common-components/CircularLoader'
 import {userRoles} from '../../common/constants'
 import CompanyForm from './CompanyForm'
 import CompanyPage from '../company-page'
+import StudentPage from '../student-page'
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
@@ -53,6 +54,10 @@ const ProfilePage = () => {
 
   if (userRole === userRoles.company) {
     return <CompanyPage companyId={companyId} />
+  }
+
+  if (userRole === userRoles.student) {
+    return <StudentPage profileId={userId} />
   }
 
   return (
