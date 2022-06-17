@@ -69,7 +69,6 @@ const EditProfileDialog = ({isOpen, onClose, studentId}) => {
       surname,
       phone,
       email,
-      password,
       userId: studentId,
     }
 
@@ -142,18 +141,6 @@ const EditProfileDialog = ({isOpen, onClose, studentId}) => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="email"
-                disabled={isBlock}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                type="password"
-                fullWidth={true}
-                label="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="password"
                 disabled={isBlock}
               />
             </Grid>

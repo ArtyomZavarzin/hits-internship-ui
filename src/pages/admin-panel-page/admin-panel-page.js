@@ -6,6 +6,7 @@ import {useState} from 'react'
 import {styled} from '@mui/system'
 import StudentsTab from './students-tab'
 import WhitelistTab from './whitelist-tab'
+import NewCommentsTab from './new-comments-tab'
 
 const StyledTab = styled(Tab)(({theme}) => ({
   width: 'fit-content',
@@ -75,7 +76,7 @@ const AdminPanelPage = () => {
             <WhitelistTab />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Item Three
+            <NewCommentsTab />
           </TabPanel>
           <TabPanel value={value} index={3}>
             Item Four

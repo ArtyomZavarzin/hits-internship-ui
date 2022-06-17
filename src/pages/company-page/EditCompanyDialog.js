@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   FormControlLabel,
   Grid,
@@ -16,14 +17,18 @@ import {
 import {forwardRef, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import {editCompany, getCompanyEditData} from '../../store/actions/companyAction'
+import DeleteIcon from '@mui/icons-material/Delete'
+import {deleteCompany, editCompany, getCompanyEditData} from '../../store/actions/companyAction'
 import CircularLoader from '../../components/common-components/CircularLoader'
+import {useNavigate} from 'react-router-dom'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const EditCompanyDialog = ({isOpen, onClose, companyId}) => {
+const EditCompanyDialog = ({isOpen, onClose, companyId, isAdmin}) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
@@ -32,6 +37,7 @@ const EditCompanyDialog = ({isOpen, onClose, companyId}) => {
   const {isLoadingEditData, companyEditData} = useSelector(state => state.company)
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (isOpen) dispatch(getCompanyEditData(companyId))
@@ -58,6 +64,17 @@ const EditCompanyDialog = ({isOpen, onClose, companyId}) => {
     }
     const {ok} = await dispatch(editCompany(form))
     if (ok) {
+      handleClose()
+    }
+    setSubmitLoading(false)
+  }
+
+  const onDelete = async () => {
+    setIsDeleteDialogOpen(false)
+    setSubmitLoading(true)
+    const {ok} = await dispatch(deleteCompany(companyEditData.id))
+    if (ok) {
+      navigate('/companies')
       handleClose()
     }
     setSubmitLoading(false)
@@ -105,6 +122,40 @@ const EditCompanyDialog = ({isOpen, onClose, companyId}) => {
               Закрыть
             </Button>
           </Grid>
+          {isAdmin && (
+            <>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="error"
+                  disabled={isLoadingEditData || submitLoading}
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                  endIcon={<DeleteIcon />}
+                >
+                  Удалить
+                </Button>
+              </Grid>
+              <Dialog
+                open={isDeleteDialogOpen}
+                onClose={() => setIsDeleteDialogOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">Подтвереждение удаления</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Удалить компанию? Действеие нельзя будет отменить.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setIsDeleteDialogOpen(false)}>Назад</Button>
+                  <Button onClick={onDelete} autoFocus>
+                    Подтвердить
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </>
+          )}
           <Grid item>
             <Button
               variant="contained"

@@ -22,7 +22,7 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refreshToken')
         if (refreshToken) {
-          const response = await axios.get(`${API_URL}/refresh`, {withCredentials: true})
+          const response = await axios.get(`${API_URL}refresh`, {withCredentials: true})
           localStorage.setItem('token', response.data.accessToken)
           return api.request(originalRequest)
         }

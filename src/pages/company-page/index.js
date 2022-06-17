@@ -38,8 +38,8 @@ const CompanyPage = ({companyId}) => {
         <CircularLoader />
       ) : (
         <>
-          <Grid container spacing={4}>
-            <Grid item xs={8}>
+          <Grid container spacing={4} flexWrap="nowrap">
+            <Grid item xs={true}>
               <Grid container mb={4} spacing={1} wrap="nowrap" alignItems="center">
                 <Grid item xs={true}>
                   <Typography variant="h3">{company.name}</Typography>
@@ -59,7 +59,7 @@ const CompanyPage = ({companyId}) => {
                 {company.description}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs="auto">
               <CommentsSection companyId={[null, undefined].includes(companyId) ? paramsId : companyId} />
             </Grid>
           </Grid>
@@ -68,7 +68,12 @@ const CompanyPage = ({companyId}) => {
       )}
       {isOwner ? (
         <>
-          <EditCompanyDialog isOpen={dialogIsOpen} onClose={() => setDialogIsOpen(false)} companyId={id} />
+          <EditCompanyDialog
+            isOpen={dialogIsOpen}
+            onClose={() => setDialogIsOpen(false)}
+            companyId={id}
+            isAdmin={userRole === userRoles.admin}
+          />
         </>
       ) : null}
     </>

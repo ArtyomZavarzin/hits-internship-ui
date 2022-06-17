@@ -84,3 +84,13 @@ export const editCompany = form => async dispatch => {
     return {ok, errors}
   } catch (e) {}
 }
+
+export const deleteCompany = id => async dispatch => {
+  try {
+    const response = await companyService.deleteCompany({id: id})
+
+    const {ok, data, errors} = getResponse(response)
+
+    return {ok, errors}
+  } catch (e) {}
+}

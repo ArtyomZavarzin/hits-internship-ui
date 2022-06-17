@@ -1,6 +1,13 @@
 import reviewsService from '../../services/reviewsService'
 import getResponse from '../../utils/getResponse'
-import {getCompanyReviewsError, getCompanyReviewsFetching, getCompanyReviewsSuccses} from '../slices/reviewsSlices'
+import {
+  getCompanyReviewsError,
+  getCompanyReviewsFetching,
+  getCompanyReviewsSuccses,
+  getNewReviewsError,
+  getNewReviewsFetching,
+  getNewReviewsSuccses,
+} from '../slices/reviewsSlices'
 
 export const getCompanyReviews = id => async dispatch => {
   try {
@@ -33,5 +40,47 @@ export const createCompanyReviews = form => async dispatch => {
     }
 
     return {ok, errors}
+  } catch (e) {}
+}
+
+export const getNewReviews = () => async dispatch => {
+  try {
+    dispatch(getNewReviewsFetching())
+
+    // await reviewsService.createReviews({
+    //   text: 'gfjkfdsfh jkfdsfhks hjk',
+    //   rating: 4,
+    // })
+
+    const response = await reviewsService.getPendingReviews()
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getNewReviewsSuccses(data))
+    } else {
+      dispatch(getNewReviewsError(errors))
+    }
+  } catch (e) {}
+}
+
+export const acceptReviews = id => async dispatch => {
+  try {
+    const response = await reviewsService.approveReviews(id)
+    const {ok, data, errors} = getResponse(response)
+    if (ok) {
+      dispatch(getNewReviews())
+    }
+    return ok
+  } catch (e) {}
+}
+
+export const rejectReviews = id => async dispatch => {
+  try {
+    const response = await reviewsService.rejectReviews(id)
+    const {ok, data, errors} = getResponse(response)
+    if (ok) {
+      dispatch(getNewReviews())
+    }
+    return ok
   } catch (e) {}
 }

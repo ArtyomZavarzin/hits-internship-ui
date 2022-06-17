@@ -1,4 +1,5 @@
-import {Box, Button, Grid, Typography} from '@mui/material'
+import {Box, Button, Grid, Paper, Typography} from '@mui/material'
+import {styled} from '@mui/system'
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate, useParams} from 'react-router-dom'
@@ -7,6 +8,19 @@ import CircularLoader from '../../components/common-components/CircularLoader.js
 import {useAuth} from '../../hooks/use-auth.js'
 import {getUserInfo} from '../../store/actions/userAction.js'
 import EditProfileDialog from './editProfileDialog.js'
+import InternshipPlaces from './internship-places.js'
+import StudentInfo from './student-info.js'
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  transition: 'all 0.15s',
+  padding: theme.spacing(2),
+  '&:hover': {
+    backgroundColor: '#fcfcfc',
+    transform: 'scale(1.025)',
+  },
+}))
 
 const StudentPage = ({profileId}) => {
   const [isOwner, setIsOwner] = useState(false)
@@ -44,80 +58,44 @@ const StudentPage = ({profileId}) => {
         <CircularLoader />
       ) : (
         <>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Grid container mb={5} spacing={1} wrap="nowrap" alignItems="center">
-                <Grid item xs={true}>
-                  <Typography variant="h3" sx={{textTransform: 'capitalize'}}>
-                    {userInfo.name} {userInfo.surname}
-                  </Typography>
-                  <Box>
-                    <Typography variant="overline" component="span">
-                      Статус аккаунта -{' '}
-                    </Typography>
-                    {userInfo.approvalState === approvalStates.submited && (
-                      <Typography variant="overline" component="span" color="success.main">
-                        подтвержден
-                      </Typography>
-                    )}
-                    {userInfo.approvalState === approvalStates.rejected && (
-                      <Typography variant="overline" component="span" color="error.main">
-                        отклонен
-                      </Typography>
-                    )}
-                    {userInfo.approvalState === approvalStates.pending && (
-                      <Typography variant="overline" component="span" color="primary.light">
-                        ожидает одобрения
-                      </Typography>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item>
-                  {isOwner ? (
-                    <>
-                      <Button sx={{mt: 1}} variant="outlined" onClick={() => setDialogIsOpen(true)}>
-                        Редактировать
-                      </Button>
-                    </>
-                  ) : null}
-                </Grid>
-              </Grid>
+          <Typography variant="h3" sx={{textTransform: 'capitalize'}}>
+            {userInfo.name} {userInfo.surname}
+          </Typography>
+          <Box sx={{mb: 4}}>
+            <Typography variant="overline" component="span">
+              Статус аккаунта -{' '}
+            </Typography>
+            {userInfo.approvalState === approvalStates.submited && (
+              <Typography variant="overline" component="span" color="success.main">
+                подтвержден
+              </Typography>
+            )}
+            {userInfo.approvalState === approvalStates.rejected && (
+              <Typography variant="overline" component="span" color="error.main">
+                отклонен
+              </Typography>
+            )}
+            {userInfo.approvalState === approvalStates.pending && (
+              <Typography variant="overline" component="span" color="primary.light">
+                ожидает одобрения
+              </Typography>
+            )}
+          </Box>
 
-              <Grid container spacing={3} wrap="nowrap" alignItems="center" justifyContent="space-around">
-                <Grid item xs="auto" sx={{bgcolor: '#f5f5f7', padding: 2, borderRadius: '10px'}}>
-                  <Typography variant="h5" component="span">
-                    Полное имя -{' '}
-                  </Typography>
-                  <Typography variant="h5" component="span">
-                    {userInfo.name} {userInfo.middleName} {userInfo.surname}
-                  </Typography>
-                </Grid>
-                <Grid item xs="auto" sx={{bgcolor: '#f5f5f7', padding: 2, borderRadius: '10px'}}>
-                  <Typography variant="h5" component="span">
-                    Телефон -{' '}
-                  </Typography>
-                  <Typography variant="h5" component="span">
-                    {userInfo.phone ?? 'не указан'}
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              {/* <Typography variant="body1" sx={{whiteSpace: 'pre-line'}}>
-                {company.description}
-              </Typography> */}
+          <Grid container spacing={2} wrap="nowrap">
+            <Grid item xs={6}>
+              <StyledPaper variant="outlined">
+                <StudentInfo isOwner={isOwner} userInfo={userInfo} />
+              </StyledPaper>
             </Grid>
-            {/* <Grid item xs={4}>
-              <CommentsSection companyId={[null, undefined].includes(companyId) ? paramsId : companyId} />
-            </Grid> */}
+            <Grid item xs={6}>
+              <StyledPaper variant="outlined">
+                <InternshipPlaces isAdmin={userRole === userRoles.admin} userId={id} />
+              </StyledPaper>
+            </Grid>
           </Grid>
-          {/* <VacanciesSection companyId={[null, undefined].includes(companyId) ? paramsId : companyId} /> */}
         </>
       )}
-      {isOwner ? (
-        <>
-          <EditProfileDialog isOpen={dialogIsOpen} onClose={() => setDialogIsOpen(false)} studentId={id} />
-        </>
-      ) : null}
     </>
   )
 }

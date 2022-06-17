@@ -74,10 +74,10 @@ const CrudVacancyDialog = ({isOpen, onClose, companyId, vacancyId, dialogAction,
       salary: +salary,
       // year,
     }
-    if (dialogAction === 'create') {
-      form.id = companyId
-    } else {
+    if (dialogAction === 'edit') {
       form.id = vacancyId
+    } else {
+      form.companyId = companyId
     }
     const {ok} = await dispatch(dialogAction === 'create' ? createCompanyVacancy(form) : editCompanyVacancy(form))
     setIsLoading(false)

@@ -7,6 +7,8 @@ import CircularLoader from '../common-components/CircularLoader'
 import CommentItem from './comment-item'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NewComment from './new-coment'
+import {useAuth} from '../../hooks/use-auth'
+import {userRoles} from '../../common/constants'
 
 const commentMock = [
   {
@@ -77,12 +79,14 @@ const CommentsSection = ({companyId}) => {
   const dispatch = useDispatch()
   const {isLoading, companyReviews} = useSelector(state => state.reviews)
 
+  const {userRole} = useAuth()
+
   useEffect(() => {
     dispatch(getCompanyReviews(companyId))
   }, [dispatch])
 
   return (
-    <Paper variant="outlined" sx={{position: 'relative'}}>
+    <Paper variant="outlined" sx={{position: 'relative', width: '360px'}}>
       <Typography variant="h5" sx={{p: 2}}>
         Отзывы
       </Typography>
@@ -91,15 +95,23 @@ const CommentsSection = ({companyId}) => {
         {isLoading ? (
           <CircularLoader />
         ) : (
-          <Box sx={{m: 2, position: 'relative', minHeight: '218px', display: 'flex', flexDirection: 'column'}}>
-            {commentMock.length === 0 ? (
+          <Box
+            sx={{
+              m: 2,
+              position: 'relative',
+              minHeight: '218px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {companyReviews.length === 0 ? (
               <Box flexGrow="1" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                 <Typography>На данный момент отзывов нет</Typography>
               </Box>
             ) : (
               <>
-                <Grid container spacing={1}>
-                  {commentMock.map(comment => (
+                <Grid container spacing={1} sx={{flexGrow: 1}}>
+                  {companyReviews.map(comment => (
                     <Grid key={comment.id} item xs={12}>
                       <CommentItem commentItem={comment} />
                     </Grid>
@@ -107,20 +119,22 @@ const CommentsSection = ({companyId}) => {
                 </Grid>
               </>
             )}
-            <Button
-              sx={{
-                width: '100%',
-                mt: 2,
-                position: 'sticky',
-                bottom: '16px',
-                left: '0',
-                right: '0',
-              }}
-              variant="contained"
-              onClick={() => setCreatingState(true)}
-            >
-              Оставить свой отзыв
-            </Button>
+            {userRole === userRoles.student ? (
+              <Button
+                sx={{
+                  width: '100%',
+                  mt: 2,
+                  position: 'sticky',
+                  bottom: '16px',
+                  left: '0',
+                  right: '0',
+                }}
+                variant="contained"
+                onClick={() => setCreatingState(true)}
+              >
+                Оставить свой отзыв
+              </Button>
+            ) : null}
           </Box>
         )}
       </Box>
