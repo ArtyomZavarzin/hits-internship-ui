@@ -90,7 +90,7 @@ const StudentPage = ({profileId}) => {
             </Grid>
             <Grid item xs={6}>
               <StyledPaper variant="outlined">
-                <InternshipPlaces isAdmin={userRole === userRoles.admin} userId={id} />
+                <InternshipPlaces isAdmin={userRole === userRoles.admin} userInfo={userInfo} />
               </StyledPaper>
             </Grid>
           </Grid>

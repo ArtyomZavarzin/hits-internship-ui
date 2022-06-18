@@ -6,15 +6,15 @@ import {getMatchingUserList} from '../../store/actions/userCompanyAction'
 import AddInternshipPlaceDialog from './addInternshipPlaceDialog'
 import InternshipPlaceItem from './internship-place-item'
 
-const InternshipPlaces = ({userId, isAdmin}) => {
+const InternshipPlaces = ({userInfo, isAdmin}) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
   const dispatch = useDispatch()
 
   const {isLoading, userCompanyMatching} = useSelector(state => state.userCompany)
 
   useEffect(() => {
-    dispatch(getMatchingUserList(userId))
-  }, [])
+    userInfo.id && dispatch(getMatchingUserList(userInfo.id))
+  }, [userInfo.id])
 
   return (
     <>
@@ -55,7 +55,11 @@ const InternshipPlaces = ({userId, isAdmin}) => {
               </Button>
             </Grid>
           </Grid>
-          <AddInternshipPlaceDialog isOpen={dialogIsOpen} onClose={() => setDialogIsOpen(false)} studentId={userId} />
+          <AddInternshipPlaceDialog
+            isOpen={dialogIsOpen}
+            onClose={() => setDialogIsOpen(false)}
+            studentId={userInfo.id}
+          />
         </>
       ) : null}
     </>
