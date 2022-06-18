@@ -40,7 +40,7 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          body: {backgroundColor: '#fbfbfd', fontFamily: '"SF Pro Display", Roboto, Helvetica, Arial, sans-serif'},
+          body: {backgroundColor: '#fbfbfd', fontFamily: 'Raleway, Roboto, Helvetica, Arial, sans-serif'},
         }}
       />
       <Router>
