@@ -1,7 +1,7 @@
 import {Button, Grid, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {userRoles} from '../../common/constants.js'
 import CommentsSection from '../../components/comments-section/index.js'
 import CircularLoader from '../../components/common-components/CircularLoader.js'
@@ -38,22 +38,43 @@ const CompanyPage = ({companyId}) => {
         <CircularLoader />
       ) : (
         <>
-          <Grid container spacing={4} flexWrap="nowrap">
+          <Grid container mb={5} spacing={4} flexWrap="nowrap">
             <Grid item xs={true}>
-              <Grid container mb={4} spacing={1} wrap="nowrap" alignItems="center">
-                <Grid item xs={true}>
-                  <Typography variant="h3">{company.name}</Typography>
-                </Grid>
-                <Grid item>
-                  {isOwner ? (
-                    <>
-                      <Button sx={{mt: 1}} variant="outlined" onClick={() => setDialogIsOpen(true)}>
+              {isOwner ? (
+                <>
+                  <Grid container mb={1} spacing={1} justifyContent="end">
+                    <Grid item>
+                      <Button variant="outlined" onClick={() => setDialogIsOpen(true)}>
                         Редактировать
                       </Button>
-                    </>
-                  ) : null}
-                </Grid>
-              </Grid>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        component={Link}
+                        to={userRole === userRoles.admin ? `/employees/${id}` : `/employees`}
+                      >
+                        Открыть список стажеров
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        component={Link}
+                        to={userRole === userRoles.admin ? `/company-application/${id}` : `/application`}
+                      >
+                        Открыть заявки
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {/* <Button sx={{mt: 1}} variant="outlined" onClick={() => setDialogIsOpen(true)}>
+                        Редактировать
+                      </Button> */}
+                </>
+              ) : null}
+              <Typography variant="h3" mb={3}>
+                {company.name}
+              </Typography>
 
               <Typography variant="body1" sx={{whiteSpace: 'pre-line'}}>
                 {company.description}

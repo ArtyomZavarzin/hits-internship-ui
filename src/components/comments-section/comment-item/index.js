@@ -5,7 +5,7 @@ const CommentItem = ({commentItem}) => {
     <Box>
       <Grid container justifyContent="space-between" alignItems="center" spacing={1} wrap="nowrap">
         <Grid item>
-          <Typography variant="h6" component="span">
+          <Typography variant="subtitle2" component="span">
             {commentItem.user?.fullName}
           </Typography>
         </Grid>

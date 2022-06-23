@@ -14,10 +14,19 @@ import {GlobalStyles, ThemeProvider} from '@mui/material'
 import theme from './theme'
 import AdminPanelPage from './pages/admin-panel-page/admin-panel-page'
 import StudentPage from './pages/student-page'
+import EmployeesPage from './pages/employees-page'
+import {useAuth} from './hooks/use-auth'
+import {userRoles} from './common/constants'
+import StudentRoutes from './routes/StudentRoutes'
+import AdminRoutes from './routes/AdminRoutes'
+import CompanyRoutes from './routes/CompanyRoutes'
+import GuestRoutes from './routes/GuestRoutes'
 
 function App() {
   const [loadingApp, setLoadingApp] = useState(true)
   const dispatch = useDispatch()
+
+  const {userRole} = useAuth()
 
   useEffect(() => {
     const fething = async () => {
@@ -46,7 +55,11 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <div className="App">
-            <Routes>
+            {userRole === userRoles.student && <StudentRoutes />}
+            {userRole === userRoles.admin && <AdminRoutes />}
+            {userRole === userRoles.company && <CompanyRoutes />}
+            {[null, undefined].includes(userRole) && <GuestRoutes />}
+            {/* <Routes>
               <Route path="login" element={<SignInPage />} />
               <Route path="registration" element={<SignUpPage />} />
               <Route path="/" element={<Navigate to="/companies" replace={true} />} />
@@ -56,9 +69,10 @@ function App() {
                 <Route path="student/:id" element={<StudentPage />} />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="admin-panel" element={<AdminPanelPage />} />
+                <Route path="employees/:id" element={<EmployeesPage />} />
                 <Route path="*" element={<div>no such page!</div>} />
               </Route>
-            </Routes>
+            </Routes> */}
           </div>
         </ThemeProvider>
       </Router>

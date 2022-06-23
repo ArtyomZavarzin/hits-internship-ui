@@ -1,8 +1,8 @@
-import {Box, Button, Grid, Paper, Typography} from '@mui/material'
+import {Box, Button, Container, Grid, Paper, Typography} from '@mui/material'
 import {styled} from '@mui/system'
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {useNavigate, useParams} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {approvalStates, userRoles} from '../../common/constants.js'
 import CircularLoader from '../../components/common-components/CircularLoader.js'
 import {useAuth} from '../../hooks/use-auth.js'
@@ -24,7 +24,7 @@ const StyledPaper = styled(Paper)(({theme}) => ({
 
 const StudentPage = ({profileId}) => {
   const [isOwner, setIsOwner] = useState(false)
-  const [id, setId] = useState(false)
+  const [id, setId] = useState(null)
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
   const dispatch = useDispatch()
@@ -82,18 +82,32 @@ const StudentPage = ({profileId}) => {
             )}
           </Box>
 
-          <Grid container spacing={2} wrap="nowrap">
-            <Grid item xs={6}>
-              <StyledPaper variant="outlined">
-                <StudentInfo isOwner={isOwner} userInfo={userInfo} />
-              </StyledPaper>
+          <Container maxWidth="md">
+            <Grid container spacing={2} wrap="wrap" justifyContent="center">
+              <Grid item xs={12}>
+                <StyledPaper variant="outlined">
+                  <StudentInfo isOwner={isOwner} userInfo={userInfo} />
+                </StyledPaper>
+              </Grid>
+              {isOwner ? (
+                <Grid item xs={12}>
+                  <StyledPaper variant="outlined">
+                    <InternshipPlaces isAdmin={userRole === userRoles.admin} userInfo={userInfo} />
+                  </StyledPaper>
+                </Grid>
+              ) : null}
             </Grid>
-            <Grid item xs={6}>
-              <StyledPaper variant="outlined">
-                <InternshipPlaces isAdmin={userRole === userRoles.admin} userInfo={userInfo} />
-              </StyledPaper>
-            </Grid>
-          </Grid>
+            {userRole === userRoles.admin && (
+              <Button sx={{mt: 2}} variant="outlined" component={Link} to={`/student-application/${id}`}>
+                Открыть заявки студента
+              </Button>
+            )}
+            {userRole === userRoles.student && isOwner && (
+              <Button sx={{mt: 2}} variant="outlined" component={Link} to={`/application`}>
+                Открыть мои заявки
+              </Button>
+            )}
+          </Container>
         </>
       )}
     </>

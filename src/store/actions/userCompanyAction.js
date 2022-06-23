@@ -17,7 +17,25 @@ export const getMatchingUserList = id => async dispatch => {
     } else {
       dispatch(getUserCompanyMatchingError(errors))
     }
-  } catch (e) {}
+  } catch (e) {
+    dispatch(getUserCompanyMatchingError(e))
+  }
+}
+
+export const getMatchingCompanyList = id => async dispatch => {
+  try {
+    dispatch(getUserCompanyMatchingFetching())
+    const response = await userCompanyService.getMatchingListCompany({companyId: id})
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getUserCompanyMatchingSuccses(data))
+    } else {
+      dispatch(getUserCompanyMatchingError(errors))
+    }
+  } catch (e) {
+    dispatch(getUserCompanyMatchingError(e))
+  }
 }
 
 export const createMatching = form => async dispatch => {

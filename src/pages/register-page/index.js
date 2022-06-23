@@ -50,7 +50,7 @@ const SignUpPage = () => {
 
   return (
     <Container maxWidth="xs" sx={{minHeight: '100vh', display: 'flex', alignItems: 'center'}}>
-      <Paper elevation={15} variant="outlined" sx={{p: 2, borderRadius: '10px'}}>
+      <Paper variant="outlined" sx={{p: 2, borderRadius: '10px'}}>
         <Grid container spacing={3} mb={3}>
           <Grid item xs={12}>
             <Typography variant="h6">Регистрация</Typography>

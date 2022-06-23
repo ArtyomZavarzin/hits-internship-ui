@@ -80,6 +80,16 @@ const Header = () => {
         </StyledButton>
       </>
     ),
+    [userRoles.company]: (
+      <>
+        <StyledButton sx={{ml: 1}} component={NavLink} to={'/application'}>
+          Заявки на вакансии
+        </StyledButton>
+        <StyledButton sx={{ml: 1}} component={NavLink} to={'/employees'}>
+          Стажеры
+        </StyledButton>
+      </>
+    ),
     [userRoles.admin]: (
       <>
         <StyledButton sx={{ml: 1}} component={NavLink} to={'/admin-panel'}>
@@ -104,9 +114,6 @@ const Header = () => {
               <Box sx={{flexGrow: 1}}>
                 <StyledButton component={NavLink} to={'/companies'}>
                   Компании
-                </StyledButton>
-                <StyledButton sx={{ml: 1}} component={NavLink} to={'/co'}>
-                  Вакансии
                 </StyledButton>
                 {pages[userRole]}
               </Box>
