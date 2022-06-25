@@ -4,10 +4,12 @@ import {useDispatch, useSelector} from 'react-redux'
 import CircularLoader from '../../components/common-components/CircularLoader'
 import {getMatchingUserList} from '../../store/actions/userCompanyAction'
 import AddInternshipPlaceDialog from './addInternshipPlaceDialog'
+import ChangePlaceDialog from './change-place-dialog'
 import InternshipPlaceItem from './internship-place-item'
 
 const InternshipPlaces = ({userInfo, isAdmin}) => {
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [addDialogIsOpen, setAddDialogIsOpen] = useState(false)
+  const [changeCurrentDialogIsOpen, setChangeCurrentDialogIsOpen] = useState(false)
   const dispatch = useDispatch()
 
   const {isLoading, userCompanyMatching} = useSelector(state => state.userCompany)
@@ -31,7 +33,7 @@ const InternshipPlaces = ({userInfo, isAdmin}) => {
         ) : (
           <Grid container spacing={1}>
             {userCompanyMatching.map(match => (
-              <Grid key={match.companyId} item xs={12}>
+              <Grid key={match.company.id} item xs={12}>
                 <InternshipPlaceItem place={match} />
               </Grid>
             ))}
@@ -42,7 +44,7 @@ const InternshipPlaces = ({userInfo, isAdmin}) => {
         <>
           <Grid container spacing={2} justifyContent="space-around">
             <Grid item>
-              <Button variant="outlined" onClick={() => setDialogIsOpen(true)}>
+              <Button variant="outlined" onClick={() => setAddDialogIsOpen(true)}>
                 Добавить
               </Button>
             </Grid>
@@ -50,15 +52,22 @@ const InternshipPlaces = ({userInfo, isAdmin}) => {
               <Button
                 variant="outlined"
                 disabled={isLoading || [null, undefined, 0].includes(userCompanyMatching?.length)}
+                onClick={() => setChangeCurrentDialogIsOpen(true)}
               >
                 Поменять текущее
               </Button>
             </Grid>
           </Grid>
           <AddInternshipPlaceDialog
-            isOpen={dialogIsOpen}
-            onClose={() => setDialogIsOpen(false)}
+            isOpen={addDialogIsOpen}
+            onClose={() => setAddDialogIsOpen(false)}
             studentId={userInfo.id}
+          />
+          <ChangePlaceDialog
+            isOpen={changeCurrentDialogIsOpen}
+            onClose={() => setChangeCurrentDialogIsOpen(false)}
+            studentId={userInfo.id}
+            places={userCompanyMatching}
           />
         </>
       ) : null}

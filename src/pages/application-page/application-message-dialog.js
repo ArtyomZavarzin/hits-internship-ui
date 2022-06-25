@@ -1,9 +1,8 @@
 import {Box, Button, CircularProgress, Dialog, DialogContent, Grid, Slide, TextField, Typography} from '@mui/material'
 import {forwardRef, useState} from 'react'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
 import {useDispatch} from 'react-redux'
-import {createJobApplication} from '../../../store/actions/jobApplicationAction'
+import {setCompanyMessage} from '../../store/actions/jobApplicationAction'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -24,13 +23,13 @@ const ApplicationMessageDialog = ({isOpen, onClose, application}) => {
   }
 
   const handleSubmit = async () => {
-    // setIsLoading(true)
-    // const form = {text, filePath, vacancyId: vacancy.id}
-    // const {ok} = await dispatch(createJobApplication(form))
-    // setIsLoading(false)
-    // if (ok) {
-    //   handleClose()
-    // }
+    setIsLoading(true)
+    const form = {text, id: application.id}
+    const {ok} = await dispatch(setCompanyMessage(form))
+    setIsLoading(false)
+    if (ok) {
+      handleClose()
+    }
   }
 
   return (

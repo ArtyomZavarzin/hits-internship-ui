@@ -1,6 +1,6 @@
 import {Box, Button, Container, Grid, Paper, Typography} from '@mui/material'
 import {styled} from '@mui/system'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate, useParams} from 'react-router-dom'
 import {approvalStates, userRoles} from '../../common/constants.js'
@@ -37,9 +37,13 @@ const CompanyApplicationPage = () => {
     }
   }, [companyId, useParamsId, userRole])
 
-  useEffect(() => {
+  const updateJobApplication = useCallback(() => {
     id && dispatch(getCompanyJobApplication({companyId: id}))
   }, [id])
+
+  useEffect(() => {
+    updateJobApplication()
+  }, [updateJobApplication])
 
   return (
     <>
@@ -55,7 +59,11 @@ const CompanyApplicationPage = () => {
             <Grid container spacing={2}>
               {companyJobApplications?.map((item, index) => (
                 <Grid item xs={12} key={index}>
-                  <ApplicationItem applicationItem={item} applicationFor={userRoles.company} />
+                  <ApplicationItem
+                    applicationItem={item}
+                    applicationFor={userRoles.company}
+                    updateJobApplication={updateJobApplication}
+                  />
                 </Grid>
               ))}
             </Grid>
