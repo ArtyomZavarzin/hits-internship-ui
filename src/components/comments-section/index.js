@@ -2,7 +2,7 @@ import {Divider, Grid, Button, MobileStepper, Paper, Rating, TextField, Typograp
 import {Box} from '@mui/system'
 import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {getCompanyReviews} from '../../store/actions/reviewsActions'
+import {checkOpportunityReview, getCompanyReviews} from '../../store/actions/reviewsActions'
 import CircularLoader from '../common-components/CircularLoader'
 import CommentItem from './comment-item'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
@@ -77,14 +77,15 @@ const CommentsSection = ({companyId}) => {
   const [creatingState, setCreatingState] = useState(false)
 
   const dispatch = useDispatch()
-  const {isLoading, companyReviews} = useSelector(state => state.reviews)
+  const {isLoading, companyReviews, opportunityReview} = useSelector(state => state.reviews)
 
   const {userRole} = useAuth()
 
   useEffect(() => {
     dispatch(getCompanyReviews(companyId))
+    dispatch(checkOpportunityReview(companyId))
   }, [dispatch])
-
+  console.log(opportunityReview)
   return (
     <Paper variant="outlined" sx={{position: 'relative', width: '360px'}}>
       <Typography variant="h5" sx={{p: 2}}>

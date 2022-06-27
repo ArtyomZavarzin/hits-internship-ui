@@ -7,6 +7,7 @@ import {styled} from '@mui/system'
 import StudentsTab from './students-tab'
 import WhitelistTab from './whitelist-tab'
 import NewCommentsTab from './new-comments-tab'
+import AcceptedApplicationTab from './accepted-application-tab'
 
 const StyledTab = styled(Tab)(({theme}) => ({
   width: 'fit-content',
@@ -66,6 +67,7 @@ const AdminPanelPage = () => {
             <StyledTab label="Все студенты" {...a11yProps(0)} sx={{width: 'fit-content', ml: 'auto'}} />
             <StyledTab label="Новые заявки" {...a11yProps(1)} sx={{alignItems: 'end'}} />
             <StyledTab label="Одобрение комментариев" {...a11yProps(2)} sx={{alignItems: 'end'}} />
+            <StyledTab label="Принятые предложения" {...a11yProps(3)} sx={{alignItems: 'end'}} />
           </Tabs>
         </Grid>
         <Grid item xs={9}>
@@ -79,7 +81,7 @@ const AdminPanelPage = () => {
             <NewCommentsTab />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            Item Four
+            <AcceptedApplicationTab />
           </TabPanel>
           <TabPanel value={value} index={4}>
             Item Five

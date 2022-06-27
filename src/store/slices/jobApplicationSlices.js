@@ -12,6 +12,10 @@ const initialState = {
   isLoadingStudentJobApplications: false,
   studentJobApplications: [],
   studentJobApplicationsError: {},
+
+  isLoadingAcceptedJobApplications: false,
+  acceptedJobApplications: [],
+  sacceptedJobApplicationsError: {},
 }
 
 export const jobApplicationSlice = createSlice({
@@ -41,6 +45,18 @@ export const jobApplicationSlice = createSlice({
       state.isLoadingStudentJobApplications = false
       state.studentJobApplications = []
     },
+
+    getAcceptedJobApplicationFetching: state => {
+      state.isLoadingAcceptedJobApplications = true
+    },
+    getAcceptedJobApplicationSuccses: (state, action) => {
+      state.isLoadingAcceptedJobApplications = false
+      state.acceptedJobApplications = action.payload
+    },
+    getAcceptedJobApplicationError: (state, action) => {
+      state.isLoadingAcceptedJobApplications = false
+      state.acceptedJobApplications = []
+    },
   },
 })
 
@@ -51,6 +67,9 @@ export const {
   getStudentJobApplicationFetching,
   getStudentJobApplicationSuccses,
   getStudentJobApplicationError,
+  getAcceptedJobApplicationFetching,
+  getAcceptedJobApplicationSuccses,
+  getAcceptedJobApplicationError,
 } = jobApplicationSlice.actions
 
 export default jobApplicationSlice.reducer

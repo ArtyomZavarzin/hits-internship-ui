@@ -19,8 +19,8 @@ const WhitelistTab = () => {
 
   return (
     <>
-      {whitelist?.map(item => (
-        <WhitelistItem userDetails={item} />
+      {whitelist?.map((item, index) => (
+        <WhitelistItem key={index} userDetails={item} />
       ))}
     </>
   )

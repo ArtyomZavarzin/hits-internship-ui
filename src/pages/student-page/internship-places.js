@@ -23,7 +23,7 @@ const InternshipPlaces = ({userInfo, isAdmin}) => {
       <Typography variant="h5" color="primary" mb={2}>
         Места стажировок
       </Typography>
-      <Box sx={{position: 'relative', minHeight: '100px', display: 'flex'}}>
+      <Box sx={{position: 'relative', minHeight: '60px', display: 'flex'}}>
         {isLoading ? (
           <CircularLoader />
         ) : userCompanyMatching.length === 0 ? (

@@ -50,6 +50,18 @@ export const createMatching = form => async dispatch => {
   } catch (e) {}
 }
 
+export const deleteMatching = form => async dispatch => {
+  try {
+    const response = await userCompanyService.deleteMatching(form)
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getMatchingUserList(form.userId))
+    }
+    return {ok, errors}
+  } catch (e) {}
+}
+
 export const setCurrentMatching = form => async dispatch => {
   try {
     const response = await userCompanyService.setCurrentMatching(form)

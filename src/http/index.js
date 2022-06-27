@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export const API_URL = 'https://localhost:5001/'
+// export const API_URL = 'https://hits-internchips-develop.azurewebsites.net/'
 
 const api = axios.create({
   baseURL: API_URL,

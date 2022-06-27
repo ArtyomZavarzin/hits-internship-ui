@@ -59,7 +59,7 @@ const ApplyVacancyDialog = ({isOpen, onClose, vacancy}) => {
           <Grid item xs={12} container spacing={2} alignItems="center">
             <Grid item xs="auto">
               <Button variant="contained" component="label" endIcon={<UploadFileIcon />}>
-                Загрузкить файл
+                Загрузить файл
                 <input type="file" hidden onChange={e => setFilePath(e.target.value)} />
               </Button>
             </Grid>

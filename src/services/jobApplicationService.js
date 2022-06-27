@@ -7,6 +7,7 @@ const jobApplicationService = {
   getJobApplication: data => api.get('/jobApplication/getJobApplication', {params: data}),
   getCompanyJobApplication: data => api.get('/jobApplication/getCompanyJobApplication', {params: data}),
   getStudentJobApplication: data => api.get('/jobApplication/getStudentJobApplication', {params: data}),
+  getAcceptedJobApplications: data => api.get('/jobApplication/acceptedJobApplications', {params: data}),
   changeJobApplicationCompanyStatus: data => api.post('/jobApplication/changeCompanyStatus', data),
   changeJobApplicationStudentStatus: data => api.post('/jobApplication/changeStudentStatus', data),
   setCompanyMessage: data => api.post('/jobApplication/setCompanyMessage', data),

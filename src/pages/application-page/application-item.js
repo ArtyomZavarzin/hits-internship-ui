@@ -1,8 +1,8 @@
 import {Accordion, AccordionDetails, AccordionSummary, Button, Grid, IconButton, Paper, Typography} from '@mui/material'
 import {styled} from '@mui/system'
-import {userRoles} from '../../common/constants.js'
+import {applicationStates, userRoles} from '../../common/constants.js'
 import {useAuth} from '../../hooks/use-auth.js'
-import {applicationStatusColors, applicationStatuses} from './models.js'
+import {applicationStatusColors, applicationStatuses, applicationStudentStatuses} from './models.js'
 import EditIcon from '@mui/icons-material/Edit'
 import {useState} from 'react'
 import EditApplicationDialog from './edit-application-modal.js'
@@ -11,6 +11,9 @@ import EmailIcon from '@mui/icons-material/Email'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import ApplicationStatusDialog from './application-status-dialog.js'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import OfferResponseDialog from './offer-responce-dialog.js'
+import ApplicationStudentStatusDialog from './application-student-status-dialog.js'
+import PersonIcon from '@mui/icons-material/Person'
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   display: 'flex',
@@ -27,6 +30,9 @@ const ApplicationItem = ({applicationItem, applicationFor, updateJobApplication}
   const [isOpenEditDialog, setOpenEditDialog] = useState(false)
   const [isOpenMessageDialog, setOpenMessageDialog] = useState(false)
   const [isOpenStatusDialog, setOpenStatusDialog] = useState(false)
+  const [isOpenStudentStatusDialog, setOpenStudentStatusDialog] = useState(false)
+  const [isOfferResponseDialog, setOfferResponseDialog] = useState(false)
+  const [offerResponse, setOfferResponse] = useState('')
   const {userRole} = useAuth()
   return (
     <>
@@ -48,13 +54,24 @@ const ApplicationItem = ({applicationItem, applicationFor, updateJobApplication}
             <Typography variant="overline" component="span">
               Статус заявки -{' '}
             </Typography>
-            <Typography
-              variant="overline"
-              component="span"
-              color={applicationStatusColors[applicationItem.companyStatus]}
-            >
-              {applicationStatuses[applicationItem.companyStatus]}
-            </Typography>
+            {applicationItem.companyStatus === applicationStates.submited &&
+            applicationItem.studentStatus !== applicationStates.pending ? (
+              <Typography
+                variant="overline"
+                component="span"
+                color={applicationStatusColors[applicationItem.studentStatus]}
+              >
+                {applicationStudentStatuses[applicationItem.studentStatus]}
+              </Typography>
+            ) : (
+              <Typography
+                variant="overline"
+                component="span"
+                color={applicationStatusColors[applicationItem.companyStatus]}
+              >
+                {applicationStatuses[applicationItem.companyStatus]}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
@@ -78,6 +95,30 @@ const ApplicationItem = ({applicationItem, applicationFor, updateJobApplication}
                   Задать статус
                 </Button>
               </Grid>
+
+              {userRole === userRoles.admin ? (
+                <>
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        setOpenStudentStatusDialog(true)
+                      }}
+                      endIcon={<PersonIcon />}
+                    >
+                      Задать ответ студента
+                    </Button>
+                  </Grid>
+                  <ApplicationStudentStatusDialog
+                    isOpen={isOpenStudentStatusDialog}
+                    onClose={() => {
+                      setOpenStudentStatusDialog(false)
+                    }}
+                    update={updateJobApplication}
+                    application={applicationItem}
+                  />
+                </>
+              ) : null}
             </Grid>
             <ApplicationMessageDialog
               isOpen={isOpenMessageDialog}
@@ -147,6 +188,47 @@ const ApplicationItem = ({applicationItem, applicationFor, updateJobApplication}
             </AccordionDetails>
           </Accordion>
         </div>
+        {userRole === userRoles.student &&
+        applicationItem.companyStatus === applicationStates.submited &&
+        applicationItem.studentStatus === applicationStates.pending ? (
+          <>
+            <Grid container spacing={2} justifyContent="end" mt={0}>
+              <Grid item>
+                <Button
+                  color="error"
+                  variant="outlined"
+                  onClick={() => {
+                    setOfferResponse('reject')
+                    setOfferResponseDialog(true)
+                  }}
+                >
+                  Отклонить предложение
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  color="success"
+                  variant="outlined"
+                  onClick={() => {
+                    setOfferResponse('submit')
+                    setOfferResponseDialog(true)
+                  }}
+                >
+                  Принять предложение
+                </Button>
+              </Grid>
+            </Grid>
+            <OfferResponseDialog
+              isOpen={isOfferResponseDialog}
+              onClose={() => {
+                setOfferResponseDialog(false)
+              }}
+              update={updateJobApplication}
+              application={applicationItem}
+              actionType={offerResponse}
+            />
+          </>
+        ) : null}
       </StyledPaper>
     </>
   )

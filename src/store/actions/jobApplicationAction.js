@@ -1,6 +1,10 @@
 import jobApplicationService from '../../services/jobApplicationService'
 import getResponse from '../../utils/getResponse'
-import {} from '../slices/jobApplicationSlices'
+import {
+  getAcceptedJobApplicationError,
+  getAcceptedJobApplicationFetching,
+  getAcceptedJobApplicationSuccses,
+} from '../slices/jobApplicationSlices'
 import {
   getCompanyJobApplicationFetching,
   getCompanyJobApplicationSuccses,
@@ -36,6 +40,21 @@ export const getStudentJobApplication = form => async dispatch => {
       dispatch(getStudentJobApplicationSuccses(data))
     } else {
       dispatch(getStudentJobApplicationError(errors))
+    }
+  } catch (e) {}
+}
+
+export const getAcceptedJobApplications = form => async dispatch => {
+  try {
+    dispatch(getAcceptedJobApplicationFetching())
+
+    const response = await jobApplicationService.getAcceptedJobApplications(form)
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getAcceptedJobApplicationSuccses(data))
+    } else {
+      dispatch(getAcceptedJobApplicationError(errors))
     }
   } catch (e) {}
 }
@@ -85,6 +104,20 @@ export const setCompanyMessage = form => async dispatch => {
 export const setApplicationCompnanyStatus = form => async dispatch => {
   try {
     const response = await jobApplicationService.changeJobApplicationCompanyStatus(form)
+
+    const {ok, data, errors} = getResponse(response)
+
+    // if (ok) {
+    //   await dispatch(getAllCompanies())
+    // }
+
+    return {ok, errors}
+  } catch (e) {}
+}
+
+export const setApplicationStudentStatus = form => async dispatch => {
+  try {
+    const response = await jobApplicationService.changeJobApplicationStudentStatus(form)
 
     const {ok, data, errors} = getResponse(response)
 

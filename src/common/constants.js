@@ -22,6 +22,6 @@ export const approvalStates = {
 
 export const applicationStates = {
   pending: 2,
-  // submited: 1,
-  // rejected: 2,
+  submited: 0,
+  rejected: 1,
 }
