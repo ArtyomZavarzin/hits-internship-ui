@@ -7,21 +7,34 @@ import {
   getNewReviewsError,
   getNewReviewsFetching,
   getNewReviewsSuccses,
+  getOpportunityReviewError,
+  getOpportunityReviewFetching,
+  getOpportunityReviewSuccses,
 } from '../slices/reviewsSlices'
+
+export const checkOpportunityReview = id => async dispatch => {
+  try {
+    dispatch(getOpportunityReviewFetching())
+    const response = await reviewsService.checkOpportunityReview(id)
+    const {ok, data, errors} = getResponse(response)
+
+    if (ok) {
+      dispatch(getOpportunityReviewSuccses(data))
+    } else {
+      dispatch(getOpportunityReviewError(errors))
+    }
+  } catch (e) {}
+}
 
 export const getCompanyReviews = id => async dispatch => {
   try {
     dispatch(getCompanyReviewsFetching())
 
-    // await reviewsService.createReviews({
-    //   text: 'gfjkfdsfh jkfdsfhks hjk',
-    //   rating: 4,
-    // })
-
     const response = await reviewsService.getCompanyReviews(id)
     const {ok, data, errors} = getResponse(response)
 
     if (ok) {
+      dispatch(checkOpportunityReview(id))
       dispatch(getCompanyReviewsSuccses(data))
     } else {
       dispatch(getCompanyReviewsError(errors))

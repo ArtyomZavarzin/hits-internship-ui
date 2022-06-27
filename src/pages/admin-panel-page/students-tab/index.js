@@ -47,7 +47,9 @@ const StudentsTab = () => {
                 </TableCell>
                 <TableCell align="right">{row.yearOfEducation}</TableCell>
                 <TableCell align="right">
-                  {row.userCompanies && row.userCompanies.lenght !== 0 ? row.userCompanies[0].name : '-'}
+                  {row.userCompanies && row.userCompanies.length !== 0
+                    ? row.userCompanies.find(el => el.isCurrent)?.company.name
+                    : '-'}
                 </TableCell>
                 <TableCell align="right">
                   <Button component={Link} to={`/student/${row.id}`}>

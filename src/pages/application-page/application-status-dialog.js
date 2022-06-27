@@ -16,7 +16,7 @@ import {
 import {forwardRef, useEffect, useState} from 'react'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import {useDispatch} from 'react-redux'
-import {setApplicationStatus} from '../../store/actions/jobApplicationAction'
+import {setApplicationCompnanyStatus} from '../../store/actions/jobApplicationAction'
 import {applicationStatuses} from './models'
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -31,7 +31,7 @@ const ApplicationStatusDialog = ({isOpen, onClose, update, application}) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setStatus(application.status)
+    setStatus(application.companyStatus)
   }, [isOpen, application])
 
   const handleClose = () => {
@@ -43,7 +43,7 @@ const ApplicationStatusDialog = ({isOpen, onClose, update, application}) => {
   const handleSubmit = async () => {
     setIsLoading(true)
     const form = {status: +status, id: application.id}
-    const {ok} = await dispatch(setApplicationStatus(form))
+    const {ok} = await dispatch(setApplicationCompnanyStatus(form))
     setIsLoading(false)
     if (ok) {
       update()

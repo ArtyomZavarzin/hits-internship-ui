@@ -19,9 +19,11 @@ const EditApplicationDialog = ({isOpen, onClose, update, application}) => {
   // const {isLoadingEditData, vacancyEditData} = useSelector(state => state.vacancy)
 
   useEffect(() => {
-    setText(application.text)
-    setFilePath(application.filePath)
-  }, [application])
+    if (isOpen) {
+      setText(application.text)
+      setFilePath(application.filePath)
+    }
+  }, [isOpen, application])
 
   const handleClose = () => {
     setText('')

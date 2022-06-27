@@ -8,7 +8,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const ApplicationMessageDialog = ({isOpen, onClose, application}) => {
+const ApplicationMessageDialog = ({isOpen, onClose, update, application}) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [text, setText] = useState('')
@@ -24,10 +24,11 @@ const ApplicationMessageDialog = ({isOpen, onClose, application}) => {
 
   const handleSubmit = async () => {
     setIsLoading(true)
-    const form = {text, id: application.id}
+    const form = {message: text, id: application.id}
     const {ok} = await dispatch(setCompanyMessage(form))
     setIsLoading(false)
     if (ok) {
+      update()
       handleClose()
     }
   }

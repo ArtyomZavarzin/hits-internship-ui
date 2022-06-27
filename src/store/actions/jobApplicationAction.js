@@ -82,9 +82,9 @@ export const setCompanyMessage = form => async dispatch => {
   } catch (e) {}
 }
 
-export const setApplicationStatus = form => async dispatch => {
+export const setApplicationCompnanyStatus = form => async dispatch => {
   try {
-    const response = await jobApplicationService.changeJobApplicationStatus(form)
+    const response = await jobApplicationService.changeJobApplicationCompanyStatus(form)
 
     const {ok, data, errors} = getResponse(response)
 

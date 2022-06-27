@@ -7,6 +7,10 @@ const initialState = {
 
   newReviews: [],
   newReviewsError: '',
+
+  isLoadingOpportunityReview: false,
+  opportunityReview: false,
+  opportunityReviewError: '',
 }
 
 export const reviewsSlice = createSlice({
@@ -40,6 +44,20 @@ export const reviewsSlice = createSlice({
       state.newReviews = []
       state.newReviewsError = action.payload
     },
+
+    getOpportunityReviewFetching: state => {
+      state.isLoadingOpportunityReview = true
+    },
+    getOpportunityReviewSuccses: (state, action) => {
+      state.isLoadingOpportunityReview = false
+      state.opportunityReview = action.payload
+      state.opportunityReviewError = ''
+    },
+    getOpportunityReviewError: (state, action) => {
+      state.isLoadingOpportunityReview = false
+      state.opportunityReview = false
+      state.opportunityReviewError = action.payload
+    },
   },
 })
 
@@ -50,6 +68,9 @@ export const {
   getNewReviewsFetching,
   getNewReviewsSuccses,
   getNewReviewsError,
+  getOpportunityReviewFetching,
+  getOpportunityReviewSuccses,
+  getOpportunityReviewError,
 } = reviewsSlice.actions
 
 export default reviewsSlice.reducer
