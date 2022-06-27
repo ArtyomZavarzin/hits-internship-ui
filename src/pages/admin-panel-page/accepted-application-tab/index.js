@@ -4,6 +4,7 @@ import {getWhitelist} from '../../../store/actions/whitelistAction'
 import CircularLoader from '../../../components/common-components/CircularLoader.js'
 import {getAcceptedJobApplications} from '../../../store/actions/jobApplicationAction'
 import AcceptedJobApplicationItem from './accepted-application-item'
+import {Typography} from '@mui/material'
 
 const AcceptedApplicationTab = () => {
   const dispatch = useDispatch()
@@ -19,9 +20,11 @@ const AcceptedApplicationTab = () => {
 
   return (
     <>
-      {acceptedJobApplications?.map(item => (
-        <AcceptedJobApplicationItem key={item.id} application={item} />
-      ))}
+      {acceptedJobApplications.length !== 0 ? (
+        acceptedJobApplications?.map(item => <AcceptedJobApplicationItem key={item.id} application={item} />)
+      ) : (
+        <Typography>На данный момент список пуст</Typography>
+      )}
     </>
   )
 }

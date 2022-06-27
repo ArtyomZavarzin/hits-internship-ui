@@ -48,24 +48,28 @@ const CompanyPage = ({companyId}) => {
                         Редактировать
                       </Button>
                     </Grid>
-                    <Grid item>
-                      <Button
-                        variant="outlined"
-                        component={Link}
-                        to={userRole === userRoles.admin ? `/employees/${id}` : `/employees`}
-                      >
-                        Открыть список стажеров
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <Button
-                        variant="outlined"
-                        component={Link}
-                        to={userRole === userRoles.admin ? `/company-application/${id}` : `/application`}
-                      >
-                        Открыть заявки
-                      </Button>
-                    </Grid>
+                    {userRole === userRoles.admin ? (
+                      <>
+                        <Grid item>
+                          <Button
+                            variant="outlined"
+                            component={Link}
+                            to={userRole === userRoles.admin ? `/employees/${id}` : `/employees`}
+                          >
+                            Открыть список стажеров
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            variant="outlined"
+                            component={Link}
+                            to={userRole === userRoles.admin ? `/company-application/${id}` : `/application`}
+                          >
+                            Открыть заявки
+                          </Button>
+                        </Grid>
+                      </>
+                    ) : null}
                   </Grid>
                   {/* <Button sx={{mt: 1}} variant="outlined" onClick={() => setDialogIsOpen(true)}>
                         Редактировать

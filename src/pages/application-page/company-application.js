@@ -55,19 +55,23 @@ const CompanyApplicationPage = () => {
             Заявки на вакансии
           </Typography>
 
-          <Container maxWidth="md">
-            <Grid container spacing={2}>
-              {companyJobApplications?.map((item, index) => (
-                <Grid item xs={12} key={index}>
-                  <ApplicationItem
-                    applicationItem={item}
-                    applicationFor={userRoles.company}
-                    updateJobApplication={updateJobApplication}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+          {companyJobApplications.length !== 0 ? (
+            <Container maxWidth="md">
+              <Grid container spacing={2}>
+                {companyJobApplications?.map((item, index) => (
+                  <Grid item xs={12} key={index}>
+                    <ApplicationItem
+                      applicationItem={item}
+                      applicationFor={userRoles.company}
+                      updateJobApplication={updateJobApplication}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Container>
+          ) : (
+            <Typography>На данный момент заявок нет</Typography>
+          )}
         </>
       )}
     </>

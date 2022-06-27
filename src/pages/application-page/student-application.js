@@ -55,19 +55,23 @@ const StudentApplicationPage = () => {
             Заявки студента
           </Typography>
 
-          <Container maxWidth="md">
-            <Grid container spacing={2}>
-              {studentJobApplications?.map((item, index) => (
-                <Grid item xs={12} key={index}>
-                  <ApplicationItem
-                    applicationItem={item}
-                    applicationFor={userRoles.student}
-                    updateJobApplication={updateJobApplication}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+          {studentJobApplications.length !== 0 ? (
+            <Container maxWidth="md">
+              <Grid container spacing={2}>
+                {studentJobApplications?.map((item, index) => (
+                  <Grid item xs={12} key={index}>
+                    <ApplicationItem
+                      applicationItem={item}
+                      applicationFor={userRoles.student}
+                      updateJobApplication={updateJobApplication}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Container>
+          ) : (
+            <Typography>На данный момент заявок нет</Typography>
+          )}
         </>
       )}
     </>

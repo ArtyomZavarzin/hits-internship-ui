@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import {Link, NavLink, useNavigate} from 'react-router-dom'
-import {Grid, Container, Button, Typography} from '@mui/material'
+import {Grid, Container, Button, Typography, Badge} from '@mui/material'
 import {makeStyles} from '@mui/material'
 import {useDispatch, useSelector} from 'react-redux'
 import {logout} from '../../../store/actions/authAction'
@@ -63,6 +63,16 @@ const StyledButton = styled(Button)(({theme}) => ({
   },
 }))
 
+const StyledBadge = styled(Badge)(({theme}) => ({
+  '& .MuiBadge-badge': {
+    right: 4,
+    top: 6,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: 'black',
+  },
+}))
+
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -78,6 +88,11 @@ const Header = () => {
         <StyledButton sx={{ml: 1}} component={NavLink} to={'/application'}>
           Мои заявки
         </StyledButton>
+        <StyledBadge badgeContent={4}>
+          <StyledButton sx={{ml: 1}} component={NavLink} to={'/notifications'}>
+            Уведомления
+          </StyledButton>
+        </StyledBadge>
       </>
     ),
     [userRoles.company]: (
@@ -88,6 +103,11 @@ const Header = () => {
         <StyledButton sx={{ml: 1}} component={NavLink} to={'/employees'}>
           Стажеры
         </StyledButton>
+        <StyledBadge badgeContent={4}>
+          <StyledButton sx={{ml: 1}} component={NavLink} to={'/notifications'}>
+            Уведомления
+          </StyledButton>
+        </StyledBadge>
       </>
     ),
     [userRoles.admin]: (

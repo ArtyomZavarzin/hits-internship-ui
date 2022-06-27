@@ -85,7 +85,7 @@ const CommentsSection = ({companyId}) => {
     dispatch(getCompanyReviews(companyId))
     dispatch(checkOpportunityReview(companyId))
   }, [dispatch])
-  console.log(opportunityReview)
+
   return (
     <Paper variant="outlined" sx={{position: 'relative', width: '360px'}}>
       <Typography variant="h5" sx={{p: 2}}>

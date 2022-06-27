@@ -75,7 +75,7 @@ const AcceptedJobApplicationItem = ({application}) => {
               onClick={onSubmit}
               disabled={isLoading}
             >
-              Принять
+              Одобрить
             </Button>
           </Grid>
         </Grid>

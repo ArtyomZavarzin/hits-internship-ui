@@ -19,9 +19,11 @@ const WhitelistTab = () => {
 
   return (
     <>
-      {whitelist?.map((item, index) => (
-        <WhitelistItem key={index} userDetails={item} />
-      ))}
+      {whitelist.length !== 0 ? (
+        whitelist?.map((item, index) => <WhitelistItem key={index} userDetails={item} />)
+      ) : (
+        <Typography>На данный момент новых заявок нет</Typography>
+      )}
     </>
   )
 }

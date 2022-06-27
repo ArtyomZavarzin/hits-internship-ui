@@ -19,9 +19,11 @@ const NewCommentsTab = () => {
 
   return (
     <>
-      {newReviews?.map(item => (
-        <NewReviewsItem commentItem={item} />
-      ))}
+      {newReviews.length !== 0 ? (
+        newReviews?.map(item => <NewReviewsItem commentItem={item} />)
+      ) : (
+        <Typography>На данный момент новых отзывов нет</Typography>
+      )}
     </>
   )
 }
