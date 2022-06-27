@@ -87,7 +87,7 @@ export const editCompany = form => async dispatch => {
 
 export const deleteCompany = id => async dispatch => {
   try {
-    const response = await companyService.deleteCompany({id: id})
+    const response = await companyService.deleteCompany(id)
 
     const {ok, data, errors} = getResponse(response)
 
