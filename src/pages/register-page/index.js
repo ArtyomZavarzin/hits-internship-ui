@@ -60,30 +60,30 @@ const SignUpPage = () => {
           <Grid item xs={12}>
             <TextField
               fullWidth={true}
-              label="Name"
+              label="Имя"
               value={name}
               onChange={e => setName(e.target.value)}
-              placeholder="name"
+              placeholder="Имя"
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
               fullWidth={true}
-              label="Surname"
+              label="Фамилия"
               value={surname}
               onChange={e => setSurname(e.target.value)}
-              placeholder="surname"
+              placeholder="Фамилия"
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
               fullWidth={true}
-              label="Middlename"
+              label="Отчество"
               value={middleName}
               onChange={e => setMiddleName(e.target.value)}
-              placeholder="middlename"
+              placeholder="Отчество"
             />
           </Grid>
 
@@ -102,10 +102,10 @@ const SignUpPage = () => {
             <TextField
               type="password"
               fullWidth={true}
-              label="Password"
+              label="Пароль"
               value={pass}
               onChange={e => setPass(e.target.value)}
-              placeholder="password"
+              placeholder="Пароль"
             />
           </Grid>
 

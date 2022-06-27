@@ -70,10 +70,10 @@ const SignInPage = () => {
             <TextField
               type="password"
               fullWidth={true}
-              label="Password"
+              label="Пароль"
               value={pass}
               onChange={e => setPass(e.target.value)}
-              placeholder="password"
+              placeholder="Пароль"
             />
           </Grid>
 
